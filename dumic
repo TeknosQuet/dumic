@@ -1,0 +1,35 @@
+#!/bin/sh -e
+
+# Create virtual microphone
+create() {
+	printf "%s\n" "Creating virtual microphone device."
+
+	mkdir -p /tmp/dumic
+	
+	pactl load-module module-pipe-source source_name="dumic_in" file=/tmp/dumic/in channels=1 rate=44100 format=s16le > /dev/null 2>&1
+	pactl load-module module-loopback source="$(pactl list short sources | grep "dumic_in" | cut -f1)" latency_msec=8 > /dev/null 2>&1
+
+	printf "%s\n" "Done!"
+}
+
+# Play audio files
+play() {
+	[ ! -d "/tmp/virtdevice" ] && printf "%s\n%s\n" "The virtual microphone does not exist." "Please run 'dumic -s' to create one." && exit 1
+
+	ffmpeg -re -i "$2" -f s16le -ar 44100 -ac 1 - > /tmp/dumic/in
+}
+
+
+# Check for dependencies
+deps_met=true
+[ ! "$(command -v ffmpeg)" ] && printf "%s\n" "The dependency 'ffmpeg' is missing." && deps_met=false
+[ ! "$(command -v pactl)" ] && printf "%s\n" "The dependency 'pactl' is missing." && deps_met=false
+[ "$deps_met" = "false" ] && exit 1
+
+# Read arguments from CLI
+case $1 in
+	start|-s)	create ;;
+	play|-p)	play "$@" ;;
+	""|help|-h)	printf "%s\n" "Usage: dumic -[s|p|h] [...]" && exit 1 ;;
+esac
+
