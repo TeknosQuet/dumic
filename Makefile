@@ -8,3 +8,4 @@ install: dumic
 
 uninstall deinstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/dumic
+
