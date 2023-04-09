@@ -14,7 +14,7 @@ create() {
 
 # Play audio files
 play() {
-	[ ! -d "/tmp/virtdevice" ] && printf "%s\n%s\n" "The virtual microphone does not exist." "Please run 'dumic -s' to create one." && exit 1
+	[ ! -d "/tmp/dumic" ] && printf "%s\n%s\n" "The virtual microphone does not exist." "Please run 'dumic -s' to create one." && exit 1
 
 	ffmpeg -re -i "$2" -f s16le -ar 44100 -ac 1 - > /tmp/dumic/in
 }
