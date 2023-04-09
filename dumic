@@ -30,6 +30,6 @@ deps_met=true
 case $1 in
 	start|-s)	create ;;
 	play|-p)	play "$@" ;;
-	*|help|-h)	printf "%s\n" "Usage: dumic -[s|p|h] [...]" && exit 1 ;;
+	*)			printf "%s\n" "Usage: dumic -[s|p|h] [...]" ;;
 esac
 
