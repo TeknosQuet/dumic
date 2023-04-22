@@ -1,35 +1,46 @@
 #!/bin/sh -e
 
+
+log() {
+	printf "[INFO] %s\n" "$@"
+}
+
+logerr() {
+	printf "[ERR] %s\n" "$@"
+}
+
 # Create virtual microphone
 create() {
-	printf "%s\n" "Creating virtual microphone device."
+	log "Creating virtual microphone device."
 
 	mkdir -p /tmp/dumic
 	
 	pactl load-module module-pipe-source source_name="dumic_in" file=/tmp/dumic/in channels=1 rate=44100 format=s16le > /dev/null 2>&1
 	pactl load-module module-loopback source="$(pactl list short sources | grep "dumic_in" | cut -f1)" latency_msec=8 > /dev/null 2>&1
 
-	printf "%s\n" "Done!"
+	log "Virtual microphone device has been created"
 }
 
 # Play audio files
 play() {
-	[ ! -d "/tmp/dumic" ] && printf "%s\n%s\n" "The virtual microphone does not exist." "Please run 'dumic -s' to create one." && exit 1
+	[ ! -d "/tmp/dumic" ] && logerr "The virtual microphone does not exist. Please run 'dumic -s' to create one."
 
-	ffmpeg -re -i "$2" -f s16le -ar 44100 -ac 1 - > /tmp/dumic/in
+	ffmpeg -re -i "$1" -f s16le -ar 44100 -ac 1 - > /tmp/dumic/in
 }
 
 
 # Check for dependencies
 deps_met=true
-[ ! "$(command -v ffmpeg)" ] && printf "%s\n" "The dependency 'ffmpeg' is missing." && deps_met=false
-[ ! "$(command -v pactl)" ] && printf "%s\n" "The dependency 'pactl' is missing." && deps_met=false
+[ ! "$(command -v ffmpeg)" ] && logerr "The dependency 'ffmpeg' is missing." && deps_met=false
+[ ! "$(command -v pactl)" ] && logerr "The dependency 'pactl' is missing." && deps_met=false
 [ "$deps_met" = "false" ] && exit 1
 
 # Read arguments from CLI
 case $1 in
-	start|-s)	create ;;
-	play|-p)	play "$@" ;;
-	*)			printf "%s\n" "Usage: dumic -[s|p|h] [...]" ;;
+	-p|--play)	play "$2" ;;
+	-s|--start)	create ;;
+	*)			printf "%s\n%s\n%s\n" "Usage: dumic -[p|s] [...]" \
+					   "-p, --play /path/to/audio : play audio files through virtual microphone" \
+					   "-s, --start               : create virtual microphone device" ;;
 esac
 
