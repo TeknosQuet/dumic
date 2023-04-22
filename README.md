@@ -15,8 +15,9 @@ The syntax is as follows:
 
 
 ### Installation
-A straightforward way of installing or uninstalling this program is to run ``make install`` or ``make uninstall``. You can also manually move the script into wherever you'd like; either way works.
+A straightforward way of installing or uninstalling this program is to run ``make install`` or ``make uninstall``.  
+You can also manually move the script into wherever you'd like; either way works.
 
 
 ### Licensing
-This project uses the BSD-3-Clause license. View `LICENSE` for more information.
+This software is available under the BSD-3-Clause license. View `LICENSE` for more information.
