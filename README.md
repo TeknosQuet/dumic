@@ -15,8 +15,11 @@ The syntax is as follows:
 
 
 ### Installation
-A straightforward way of installing or uninstalling this program is to run ``make install`` or ``make uninstall``.  
-You can also manually move the script into wherever you'd like; either way works.
+A straightforward way to install/uninstall this program is to run one of these commands:
+
+``make install`` or ``make uninstall``
+
+Make sure you run either command with root permissions.
 
 
 ### Licensing
