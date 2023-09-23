@@ -29,6 +29,13 @@ play() {
 }
 
 
+loop() {
+       while sleep 1; do
+         play
+       done
+}
+
+
 # Check for dependencies
 deps_met=true
 [ ! "$(command -v ffmpeg)" ] && logerr "The dependency 'ffmpeg' is missing." && deps_met=false
@@ -39,8 +46,10 @@ deps_met=true
 case $1 in
 	-p|--play)	play "$2" ;;
 	-s|--start)	create ;;
+        -l|--loop)      loop "$1" ;;
 	*)			printf "%s\n%s\n%s\n" "Usage: dumic -[p|s] [...]" \
 					   "-p, --play /path/to/audio : play audio files through virtual microphone" \
+                                           "-l, --loop /path/to/audio : play audio files through virtual microphone but looped" \
 					   "-s, --start               : create virtual microphone device" ;;
 esac
 
