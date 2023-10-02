@@ -39,7 +39,7 @@ deps_met=true
 case $1 in
 	-p|--play)	play "$2" ;;
 	-s|--start)	create ;;
-	*)			printf "%s\n%s\n%s\n" "Usage: dumic -[p|s] [...]" \
+	*)			printf "%s\n" "Usage: dumic -[p|s] [...]" \
 					   "-p, --play /path/to/audio : play audio files through virtual microphone" \
 					   "-s, --start               : create virtual microphone device" ;;
 esac
