@@ -37,10 +37,12 @@ deps_met=true
 
 # Read arguments from CLI
 case $1 in
-	-p|--play)	play "$2" ;;
-	-s|--start)	create ;;
-	*)			printf "%s\n" "Usage: dumic -[p|s] [...]" \
+	-p|--play)		play "$2" ;;
+	-s|--start)		create ;;
+	-v|--version)	printf "dumic 1.1\n" ;;
+	*)				printf "%s\n" "Usage: dumic -[p|s|v] [...]" \
 					   "-p, --play /path/to/audio : play audio files through virtual microphone" \
-					   "-s, --start               : create virtual microphone device" ;;
+					   "-s, --start               : create virtual microphone device" \
+					   "-v, --version             : print version" ;;
 esac
 

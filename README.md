@@ -12,6 +12,7 @@ This program will pipe any selected audio through the device.
 Usage: dumic -[p|s] [...]
 -p, --play /path/to/audio : play audio files through virtual microphone
 -s, --start               : create virtual microphone device
+-v, --version             : print version
 ```
 
 ## Installation
